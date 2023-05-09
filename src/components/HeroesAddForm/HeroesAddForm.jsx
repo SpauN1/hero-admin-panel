@@ -34,6 +34,27 @@ const HeroesAddForm = () => {
     setHeroElement('');
   };
 
+  const renderFilters = (filters, status) => {
+    if (status === 'loading') {
+      return <option>Загрузка элементов</option>;
+    } else if (status === 'error') {
+      return <option>Ошибка загрузки</option>;
+    }
+
+    if (filters && filters.length > 0) {
+      return filters.map(({ name, label }) => {
+        // eslint-disable-next-line
+        if (name === 'all') return;
+
+        return (
+          <option key={name} value={name}>
+            {label}
+          </option>
+        );
+      });
+    }
+  };
+
   return (
     <form className="border p-4 shadow-lg rounded" onSubmit={onSubmitHandler}>
       <div className="mb-3">
@@ -72,12 +93,16 @@ const HeroesAddForm = () => {
         <label htmlFor="element" className="form-label">
           Выбрать элемент героя
         </label>
-        <select required className="form-select" id="element" name="element">
-          <option>Я владею элементом...</option>
-          <option value="fire">Огонь</option>
-          <option value="water">Вода</option>
-          <option value="wind">Ветер</option>
-          <option value="earth">Земля</option>
+        <select
+          required
+          className="form-select"
+          id="element"
+          name="element"
+          value={heroElement}
+          onChange={(e) => setHeroElement(e.target.value)}
+        >
+          <option value="">Я владею элементом...</option>
+          {renderFilters(filters, filtersLoadingStatus)}
         </select>
       </div>
 
