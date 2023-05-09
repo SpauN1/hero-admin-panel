@@ -47,7 +47,15 @@ const reducer = (state = initialState, action) => {
         ...state,
         filtersLoadingStatus: 'error',
       };
-
+    case 'ACTIVE_FILTER_CHANGED':
+      return {
+        ...state,
+        activeFilter: action.payload,
+        filteredHeroes:
+          action.payload === 'all'
+            ? state.heroes
+            : state.heroes.filter((item) => item.element === action.payload),
+      };
     // Самая сложная часть - это показывать новые элементы по фильтрам
     // при создании или удалении
     case 'HERO_CREATED':
