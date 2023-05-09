@@ -2,6 +2,8 @@ const initialState = {
   heroes: [],
   heroesLoadingStatus: 'idle',
   filters: [],
+  filtersLoadingStatus: 'idle',
+  activeFilter: 'all',
   filteredHeroes: [],
 };
 
@@ -16,6 +18,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         heroes: action.payload,
+        filteredHeroes:
+          state.activeFilter === 'all'
+            ? action.payload
+            : action.payload.filter(
+                (item) => item.element === state.activeFilter
+              ),
         heroesLoadingStatus: 'idle',
       };
     case 'HEROES_FETCHING_ERROR':
@@ -23,11 +31,32 @@ const reducer = (state = initialState, action) => {
         ...state,
         heroesLoadingStatus: 'error',
       };
+    case 'FILTERS_FETCHING':
+      return {
+        ...state,
+        filtersLoadingStatus: 'loading',
+      };
+    case 'FILTERS_FETCHED':
+      return {
+        ...state,
+        filters: action.payload,
+        filtersLoadingStatus: 'idle',
+      };
+    case 'FILTERS_FETCHING_ERROR':
+      return {
+        ...state,
+        filtersLoadingStatus: 'error',
+      };
+
+    // Самая сложная часть - это показывать новые элементы по фильтрам
+    // при создании или удалении
     case 'HERO_CREATED':
+      // Формируем новый массив
       let newCreatedHeroList = [...state.heroes, action.payload];
       return {
         ...state,
         heroes: newCreatedHeroList,
+        // Фильтруем новые данные по фильтру, который сейчас применяется
         filteredHeroes:
           state.activeFilter === 'all'
             ? newCreatedHeroList
@@ -36,12 +65,14 @@ const reducer = (state = initialState, action) => {
               ),
       };
     case 'HERO_DELETED':
+      // Формируем новый массив
       const newHeroList = state.heroes.filter(
         (item) => item.id !== action.payload
       );
       return {
         ...state,
         heroes: newHeroList,
+        // Фильтруем новые данные по фильтру, который сейчас применяется
         filteredHeroes:
           state.activeFilter === 'all'
             ? newHeroList
