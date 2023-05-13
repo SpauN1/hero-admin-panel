@@ -13,10 +13,12 @@ import Spinner from '../Spinner/Spinner';
 
 const HeroesList = () => {
   const filteredHeroes = useSelector((state) => {
-    if (state.activeFilter === 'all') {
-      return state.heroes;
+    if (state.filters.activeFilter === 'all') {
+      return state.heroes.heroes;
     } else {
-      return state.heroes.filter((item) => item.element === state.activeFilter);
+      return state.heroes.heroes.filter(
+        (item) => item.element === state.filters.activeFilter
+      );
     }
   });
   const heroesLoadingStatus = useSelector((state) => state.heroesLoadingStatus);

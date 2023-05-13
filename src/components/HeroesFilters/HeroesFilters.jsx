@@ -13,7 +13,7 @@ import { useHttp } from '../../hooks/http.hook';
 
 const HeroesFilters = () => {
   const { filters, filtersLoadingStatus, activeFilter } = useSelector(
-    (state) => state
+    (state) => state.filters
   );
   const dispatch = useDispatch();
   const { request } = useHttp();
