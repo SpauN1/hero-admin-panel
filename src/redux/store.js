@@ -1,7 +1,7 @@
 import { legacy_createStore, combineReducers } from 'redux';
 
 import heroes from './reducers/heroes';
-import filters from './reducers/filter';
+import filters from './reducers/filters';
 
 const store = legacy_createStore(
   combineReducers({ heroes: heroes, filters: filters }),
