@@ -61,7 +61,9 @@ const HeroesList = () => {
     }
 
     return arr.map(({ id, ...props }) => {
-      return <HeroesListItem {...props} onDelete={() => onDelete(id)} />;
+      return (
+        <HeroesListItem {...props} onDelete={() => onDelete(id)} key={id} />
+      );
     });
   };
 
