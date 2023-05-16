@@ -1,4 +1,4 @@
-import { legacy_createStore, combineReducers } from 'redux';
+import { legacy_createStore, combineReducers, compose } from 'redux';
 
 import heroes from './reducers/heroes';
 import filters from './reducers/filters';
@@ -21,9 +21,11 @@ const enhancer =
   };
 
 const store = legacy_createStore(
-  combineReducers({ heroes: heroes, filters: filters }), enhancer
+  combineReducers({ heroes: heroes, filters: filters }),
+  compose(
+    enhancer,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  )
 );
 
 export default store;
-
-// window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
