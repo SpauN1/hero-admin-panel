@@ -4,10 +4,10 @@ import {
   compose,
   applyMiddleware,
 } from 'redux';
+import ReduxThunk from 'redux-thunk';
 
 import heroes from './reducers/heroes';
 import filters from './reducers/filters';
-
 const stringMiddleware = (store) => (next) => (action) => {
   if (typeof action === 'string') {
     return next({
@@ -22,13 +22,26 @@ const store = legacy_createStore(
   // applyMiddleware(stringMiddleware)
   // Подключаем DevTools
   compose(
-    applyMiddleware(stringMiddleware),
+    applyMiddleware(ReduxThunk, stringMiddleware),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
 
 export default store;
 
+// custom middleware
+
+// const store = legacy_createStore(
+//   combineReducers({ heroes: heroes, filters: filters }),
+//   // applyMiddleware(stringMiddleware)
+//   // Подключаем DevTools
+//   compose(
+//     applyMiddleware(stringMiddleware),
+//     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+//   )
+// );
+
+//-----------------------------------------------
 // Store Enhancers
 
 // const enhancer =
