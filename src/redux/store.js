@@ -1,13 +1,8 @@
-import {
-  legacy_createStore,
-  combineReducers,
-  compose,
-  applyMiddleware,
-} from 'redux';
-import ReduxThunk from 'redux-thunk';
+import { configureStore } from '@reduxjs/toolkit';
 
 import heroes from './reducers/heroes';
 import filters from './reducers/filters';
+
 const stringMiddleware = (store) => (next) => (action) => {
   if (typeof action === 'string') {
     return next({
@@ -17,54 +12,11 @@ const stringMiddleware = (store) => (next) => (action) => {
   return next(action);
 };
 
-const store = legacy_createStore(
-  combineReducers({ heroes: heroes, filters: filters }),
-  // applyMiddleware(stringMiddleware)
-  // Подключаем DevTools
-  compose(
-    applyMiddleware(ReduxThunk, stringMiddleware),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
-);
+const store = configureStore({
+  reducer: { heroes: heroes, filters: filters },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(stringMiddleware),
+  devTools: process.env.NODE_ENV !== 'production',
+});
 
 export default store;
-
-// custom middleware
-
-// const store = legacy_createStore(
-//   combineReducers({ heroes: heroes, filters: filters }),
-//   // applyMiddleware(stringMiddleware)
-//   // Подключаем DevTools
-//   compose(
-//     applyMiddleware(stringMiddleware),
-//     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-//   )
-// );
-
-//-----------------------------------------------
-// Store Enhancers
-
-// const enhancer =
-//   (createStore) =>
-//   (...args) => {
-//     const store = createStore(...args);
-
-//     const oldDispatch = store.dispatch;
-//     store.dispatch = (action) => {
-//       if (typeof action === 'string') {
-//         return oldDispatch({
-//           type: action,
-//         });
-//       }
-//       return oldDispatch(action);
-//     };
-//     return store;
-//   };
-
-// const store = legacy_createStore(
-//   combineReducers({ heroes: heroes, filters: filters }),
-//   compose(
-//     enhancer,
-//     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-//   )
-// );
