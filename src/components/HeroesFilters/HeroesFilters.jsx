@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 
 import { useHttp } from '../../hooks/http.hook';
-import { fetchFilters, activeFilterChanged } from '../../redux/actions/actions';
+import { fetchFilters } from '../../redux/actions/actions';
+import { filtersChanged } from './filtersSlice';
+
 import Spinner from '../Spinner/Spinner';
 
 const HeroesFilters = () => {
@@ -13,9 +15,9 @@ const HeroesFilters = () => {
   const dispatch = useDispatch();
   const { request } = useHttp();
 
-  // Запрос на сервер для получения фильтров и последовательной смены состояния
   useEffect(() => {
     dispatch(fetchFilters(request));
+
     // eslint-disable-next-line
   }, []);
 
@@ -31,7 +33,6 @@ const HeroesFilters = () => {
     }
 
     return arr.map(({ name, className, label }) => {
-      // Используем библиотеку classnames и формируем классы динамически
       const btnClass = classNames('btn', className, {
         active: name === activeFilter,
       });
@@ -41,7 +42,7 @@ const HeroesFilters = () => {
           key={name}
           id={name}
           className={btnClass}
-          onClick={() => dispatch(activeFilterChanged(name))}
+          onClick={() => dispatch(filtersChanged(name))}
         >
           {label}
         </button>

@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 
 import { useHttp } from '../../hooks/http.hook';
 import { fetchHeroes } from '../../redux/actions/actions';
-import { heroDeleted } from './heroesSlice'
+import { heroDeleted } from './heroesSlice';
 
 import HeroesListItem from '../HeroesListItem/HeroesListItem';
 import Spinner from '../Spinner/Spinner';
@@ -57,9 +57,7 @@ const HeroesList = () => {
     }
 
     return arr.map(({ id, ...props }) => {
-      return (
-        <HeroesListItem {...props} onDelete={() => onDelete(id)} key={id} />
-      );
+      return <HeroesListItem {...props} onDelete={() => onDelete(id)} />;
     });
   };
 
