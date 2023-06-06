@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { useHttp } from '../../hooks/http.hook';
-import { fetchHeroes } from '../../redux/actions/actions';
-import { heroDeleted } from './heroesSlice';
+import { heroDeleted, fetchHeroes } from './heroesSlice';
 
 import HeroesListItem from '../HeroesListItem/HeroesListItem';
 import Spinner from '../Spinner/Spinner';
@@ -30,7 +29,7 @@ const HeroesList = () => {
   const { request } = useHttp();
 
   useEffect(() => {
-    dispatch(fetchHeroes(request));
+    dispatch(fetchHeroes());
     // eslint-disable-next-line
   }, []);
 
