@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
 
 import { useHttp } from '../../hooks/http.hook';
 import { heroDeleted, fetchHeroes, selectAll } from './heroesSlice';
-
 import HeroesListItem from '../HeroesListItem/HeroesListItem';
 import Spinner from '../Spinner/Spinner';
 
