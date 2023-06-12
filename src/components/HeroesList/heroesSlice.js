@@ -1,5 +1,6 @@
 import {
   createSlice,
+  createSelector,
   createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
@@ -44,8 +45,18 @@ const heroesSlice = createSlice({
   },
 });
 
-export const { selectAll } = heroesAdapter.getSelectors(
-  (state) => state.heroes
+const { selectAll } = heroesAdapter.getSelectors((state) => state.heroes);
+
+export const filteredHeroesSelector = createSelector(
+  (state) => state.filters.activeFilter,
+  selectAll,
+  (filter, heroes) => {
+    if (filter === 'all') {
+      return heroes;
+    } else {
+      return heroes.filter((item) => item.element === filter);
+    }
+  }
 );
 
 export const { heroCreated, heroDeleted } = heroesSlice.actions;
