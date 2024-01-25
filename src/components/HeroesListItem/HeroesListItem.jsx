@@ -1,3 +1,5 @@
+import heroAvatar from '../../assets/img/hero_avatar.jpg';
+
 const HeroesListItem = ({ name, description, element, onDelete }) => {
   let elementClassName;
 
@@ -23,10 +25,14 @@ const HeroesListItem = ({ name, description, element, onDelete }) => {
       className={`card flex-row mb-4 shadow-lg text-white ${elementClassName}`}
     >
       <img
-        src="http://www.stpaulsteinbach.org/wp-content/uploads/2014/09/unknown-hero.jpg"
-        className="img-fluid w-25 d-inline"
+        className="img-fluid d-inline"
+        src={heroAvatar}
         alt="unknown hero"
-        style={{ objectFit: 'cover' }}
+        style={{
+          objectFit: 'cover',
+          width: '150px',
+          height: '120px',
+        }}
       />
       <div className="card-body">
         <h3 className="card-title">{name}</h3>
