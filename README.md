@@ -18,7 +18,7 @@
 ∙ Uuid  
 ∙ Classnames  
 ∙ Bootstrap  
-∙ Concurrently  
+∙ Concurrently (запускает локально json-server)
 
 
 ## ⚙️ Setup project
